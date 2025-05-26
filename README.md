@@ -1,78 +1,115 @@
-# OPENING--AND-CLOSING
+# OPENING AND CLOSING
+
 ## Aim
 To implement Opening and Closing using Python and OpenCV.
 
 ## Software Required
+
 1. Anaconda - Python 3.7
 2. OpenCV
+
 ## Algorithm:
 ### Step1:
-
-Load the input color image from a specified path.
+Import the necessary packages
 
 ### Step2:
-
-Transform the color image into a grayscale format for easier processing.
+Create the Text using cv2.putText
 
 ### Step3:
-
-Apply an edge detection technique to identify the prominent edges in the grayscale image.
+Create the structuring element
 
 ### Step4:
-
-Define a kernel (structuring element) for use in morphological operations, typically a matrix of ones.
+Use Opening operation
 
 ### Step5:
-
-Perform morphological operations: Opening: Remove small objects from the edges to clean up the image. Closing: Fill small holes in the detected edges to enhance the structure.
-
-### Step6:
-
-Show the original grayscale image, along with the results of the opening and closing operations for visual comparison.
+Use Closing Operation
  
 ## Program:
+#### Developed by: SARISH VARSHAN V
+#### Register no:212223230196
+## Import the necessary packages
 
-```
+```python
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
-#i) Create the Text using cv2.putText
-img1=np.zeros((300,600),dtype='uint8')
-font=cv2.FONT_ITALIC
-img2=cv2.putText(img1,"DHARSHAN D",(5,100),font,3,(255,0,0),5,cv2.LINE_AA)
-cv2.imshow("Original",img2)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-#ii) Create the structuring element
-#kernel1=cv2.getStructuringElement(cv2.MORPH_RECT,(21,21))
-#kernel2=cv2.getStructuringElement(cv2.MORPH_RECT,(9,9))
-kernel1=cv2.getStructuringElement(cv2.MORPH_RECT,(11,11))
-kernel2=cv2.getStructuringElement(cv2.MORPH_RECT,(5,5))
-#iii) Use Opening operation
-img4=cv2.morphologyEx(img1,cv2.MORPH_OPEN,kernel2)
-cv2.imshow("Opening",img4)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-#iv) Use Closing Operation
-img3=cv2.morphologyEx(img1,cv2.MORPH_CLOSE,kernel1)
-cv2.imshow("Closing",img3)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+from matplotlib import pyplot as plt
+```
+## Create the Text using cv2.putText
+
+```python
+# Read the color image
+input_image_path = 'peacock.jpg'
+color_image = cv2.imread(input_image_path)
+
+# Convert the color image to grayscale
+gray_image = cv2.cvtColor(color_image, cv2.COLOR_BGR2GRAY)
+
+# Perform edge detection using Canny
+edges = cv2.Canny(gray_image, 100, 200)  # you can adjust the thresholds as needed
+
+# Define the kernel size for erosion and dilation
+kernel_size = 5
+kernel = np.ones((kernel_size, kernel_size), np.uint8)
+
+# Perform erosion
+erosion = cv2.erode(edges, kernel, iterations=1)
+
+# Perform dilation
+dilation = cv2.dilate(edges, kernel, iterations=1)
+
+# Perform opening
+opening = cv2.morphologyEx(edges, cv2.MORPH_OPEN, kernel)
+
+# Perform closing
+closing = cv2.morphologyEx(edges, cv2.MORPH_CLOSE, kernel)
+```
+
+
+## Create the structuring element
+
+```python
+plt.figure(figsize=(15, 10))
+plt.subplot(2, 3, 1)
+plt.imshow(cv2.cvtColor(color_image, cv2.COLOR_BGR2RGB))
+plt.title('Original Color Image')
+plt.axis('on')
+```
+
+
+## Use Opening operation
+
+```python
+plt.subplot(2, 3, 2)
+plt.imshow(opening, cmap='gray')
+plt.title('Opening')
+plt.axis('on')
+```
+
+
+
+## Use Closing Operation
+
+```python
+plt.subplot(2, 3, 3)
+plt.imshow(closing, cmap='gray')
+plt.title('Closing')
+plt.axis('on')
+
+plt.show()
 
 ```
 ## Output:
-
 ### Display the input Image
-![original](https://github.com/user-attachments/assets/254079fd-7c2c-446d-8171-f6ef3b0bfe7f)
 
+![oi](https://github.com/JananiSoundararajan/OPENING--AND-CLOSING/assets/119477549/714739ae-6d72-4dd0-9fb7-71af939f2f2b)
 
 ### Display the result of Opening
-![opening](https://github.com/user-attachments/assets/011fc76e-a795-4f38-87be-5a311a10c9a7)
 
+![opi](https://github.com/JananiSoundararajan/OPENING--AND-CLOSING/assets/119477549/ed78bee0-8402-4702-91d5-af73fd030af4)
 
 ### Display the result of Closing
-![closing](https://github.com/user-attachments/assets/911634bc-dd79-4b98-8315-59a32f0a95cb)
 
+![ci](https://github.com/JananiSoundararajan/OPENING--AND-CLOSING/assets/119477549/288a27cf-4cdf-459f-8fb9-504eecce1362)
 
 ## Result
 Thus the Opening and Closing operation is used in the image using python and OpenCV.
